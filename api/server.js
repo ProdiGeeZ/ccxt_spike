@@ -1,6 +1,6 @@
 import express from 'express';
 import cors from 'cors';
-import { CcxtService } from './src/services/ccxt.js'; 
+import { CcxtService } from '../src/services/ccxt.js'; 
 
 const app = express();
 const port = 3000;
