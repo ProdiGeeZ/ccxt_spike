@@ -4,13 +4,12 @@
 	"main": "index.js",
 	"type": "module",
 	"scripts": {
-		"dev": "npm run build:css && concurrently \"npx tsc --watch\" \"npx tailwindcss -i ./src/styles.css -o ./public/output.css --watch\" \"nodemon --exec node --no-warnings --loader ts-node/esm src/index.ts\"",
-		"dev:css": "npx tailwindcss -i ./src/styles.css -o ./dist/output.css --watch",
-		"build:css": "npx tailwindcss -i ./src/styles.css -o ./dist/output.css --minify",
-		"build": "npx tsc && npm run build:css",
+		"dev": "concurrently \"npx tsc --watch\" \"npx tailwindcss -i ./src/styles.css -o ./public/output.css --watch\" \"nodemon --exec node --no-warnings --loader ts-node/esm src/index.ts\"",
+		"build:css": "npx tailwindcss -i ./src/styles.css -o ./public/output.css --minify",
+		"build:ts": "npx tsc",
+		"build": "npm run build:ts && npm run build:css",
 		"start": "node dist/index.js",
 		"start:prod": "npm run build && node dist/index.js",
-		"ccxt": "node --no-warnings --loader ts-node/esm src/ccxt.ts",
 		"vercel-build": "npm run build"
 	},
 	"keywords": [],
