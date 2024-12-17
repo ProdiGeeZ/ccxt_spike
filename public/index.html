@@ -4,23 +4,59 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/svg+xmlns" href="./assets/favicon.svg">
     <link rel="stylesheet" href="https://rsms.me/inter/inter.css">
     <link href="./output.css" rel="stylesheet">
-    <title>Tailwind CCXT Demo</title>
+    <title>TickerFinder - Find Price Tickers from Binance!</title>
 </head>
 
 <body class="bg-gray-900 text-white font-sans">
+    <nav class="bg-gray-800">
+        <div class="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
+            <div class="relative flex h-16 items-center justify-between">
+                <div class="absolute inset-y-0 left-0 flex items-center sm:hidden">
+                </div>
+                <div class="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
+                    <div class="flex shrink-0 items-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-8">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 3v11.25A2.25 2.25 0 0 0 6 16.5h2.25M3.75 3h-1.5m1.5 0h16.5m0 0h1.5m-1.5 0v11.25A2.25 2.25 0 0 1 18 16.5h-2.25m-7.5 0h7.5m-7.5 0-1 3m8.5-3 1 3m0 0 .5 1.5m-.5-1.5h-9.5m0 0-.5 1.5m.75-9 3-3 2.148 2.148A12.061 12.061 0 0 1 16.5 7.605" />
+                        </svg>
+                    </div>
+                    <div class="flex items-center sm:ml-[1.5px] font-light text-2xl text-white">
+                        <span class="font-bold text-[#b771f4]">Ticker</span>Finder
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
     <div class="bg-white">
-        <div class="mx-auto max-w-7xl py-24 sm:px-6 sm:py-32 lg:px-8">
+        <div class="mx-auto max-w-7xl py-24 sm:px-6 sm:py-18 lg:px-8">
             <div
                 class="relative isolate overflow-hidden bg-gray-900 px-6 py-24 text-center shadow-2xl sm:rounded-3xl sm:px-16">
-                <h2 class="text-balance text-4xl font-semibold tracking-tight text-white sm:text-5xl">See A Price Ticker Live!</h2>
-                <p class="mx-auto mt-6 max-w-xl text-pretty text-lg/8 text-gray-300">This is my first Vanilla JavaScript
-                    Project in ages! Nice Saabir! Did not struggle at all👍🏽</p>
+                <h2 class="text-balance text-4xl font-semibold tracking-tight text-white sm:text-5xl">Search a Price
+                    Ticker!</h2>
+                <p class="mx-auto mt-6 max-w-xl text-pretty text-lg/8 text-gray-300">Search <span
+                        class="font-bold">USDT</span> price tickers on the Binance Exchange, or see random ones. Up to
+                    you mate.👍🏽</p>
                 <div class="mt-10 flex items-center justify-center gap-x-6">
-                    <a href="#"
-                        class="rounded-md bg-white px-3.5 py-2.5 text-sm font-semibold text-gray-900 shadow-sm hover:bg-gray-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white">This does nothing!</a>
-                    <a href="#" class="text-sm/6 font-semibold text-white"><span class="font-semibold">Learn more</span><span aria-hidden="true">→</span></a>
+                    <a href="#" id="change-ticker"
+                        class="rounded-full bg-white px-4 py-2.5 text-md font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-200">Random
+                        Ticker</a>
+                </div>
+                <div class="mt-5">
+                    <label for="search" class=" text-sm font-medium text-gray-100">Search</label>
+                    <div class="mt-2">
+                        <div
+                            class="flex rounded-md bg-white outline outline-1 -outline-offset-1 outline-gray-300 focus-within:outline focus-within:outline-2 focus-within:-outline-offset-2 focus-within:outline-indigo-600 focus:backdrop-blur-lg">
+                            <input type="text" name="search" id="search" placeholder="BTC/USDT"
+                                class="block min-w-0 grow px-3 py-1.5 text-base text-gray-900 placeholder:text-gray-700 focus:outline focus:outline-0 sm:text-md font-semibold">
+
+                            <div class="flex py-1.5 pr-1.5">
+                                <kbd
+                                    class="inline-flex items-center rounded border border-gray-200 px-1 font-sans text-xs text-gray-700">⌘K</kbd>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <svg viewBox="0 0 1024 1024"
                     class="absolute left-1/2 top-1/2 -z-10 size-[64rem] -translate-x-1/2 [mask-image:radial-gradient(closest-side,white,transparent)]"
@@ -37,30 +73,46 @@
             </div>
         </div>
     </div>
-    <div class="m-10" id="ticker-price">
-        <h3 class="text-base font-semibold text-gray-900">Live BTC/USDT Prices</h3>
-        <dl class="mt-5 grid grid-cols-1 gap-5 sm:grid-cols-3">
-            <div class="overflow-hidden rounded-lg bg-white px-4 py-5 shadow sm:p-6">
-                <dt class="truncate text-sm font-medium text-gray-500">Bid Price</dt>
-                <dd class="mt-1 text-3xl font-semibold tracking-tight text-gray-900" id="bid-price">-</dd>
+    <div class="m-12 pb-2" id="ticker-price">
+        <div class="border-b border-gray-200 pb-4 m-4">
+            <h2 class="text-5xl font-bold text-white text-center" id="pair">BTC/USDT</h2>
+        </div>
+        <dl class="mx-auto grid grid-cols-1 gap-[1.5px] bg-gray-900/5 sm:grid-cols-2 lg:grid-cols-4">
+            <div class="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-2 bg-white px-4 py-10 sm:px-6 xl:px-8 max-[640px]:rounded-t-lg sm:rounded-tl-lg
+            lg:rounded-l-lg md:rounded-tl-lg border border-gray-200">
+                <dt class="text-sm/6 font-medium text-gray-500">Bid Price</dt>
+                <dd class="text-xs font-medium text-gray-500" id="bid-price-change"><span class="text-mute text-gray-500">loading...</span></dd>
+                <dd class="w-full flex-none text-3xl/10 lg:text-2xl font-medium tracking-tight text-gray-900" id="bid-price"><span class="text-mute text-gray-500">loading...</span></dd>
             </div>
-            <div class="overflow-hidden rounded-lg bg-white px-4 py-5 shadow sm:p-6">
-                <dt class="truncate text-sm font-medium text-gray-500">Ask Price</dt>
-                <dd class="mt-1 text-3xl font-semibold tracking-tight text-gray-900" id="ask-price">-</dd>
+
+            <div class="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-2 bg-white px-4 py-10 sm:px-6 xl:px-8 
+            sm:rounded-tr-lg md:rounded-tr-lg border-t lg:rounded-none border-gray-200">
+                <dt class="text-sm/6 font-medium text-gray-500">Ask Price</dt>
+                <dd class="text-xs font-medium text-gray-500" id="ask-price-change"><span class="text-mute text-gray-500">loading...</span></dd>
+                <dd class="w-full flex-none text-3xl/10 lg:text-2xl font-medium tracking-tight text-gray-900" id="ask-price"><span class="text-mute text-gray-500">loading...</span></dd>
             </div>
-            <div class="overflow-hidden rounded-lg bg-white px-4 py-5 shadow sm:p-6">
-                <dt class="truncate text-sm font-medium text-gray-500">Volume 24hr</dt>
-                <dd class="mt-1 text-3xl font-semibold tracking-tight text-gray-900" id="last-price">-</dd>
+
+            <div class="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-2 bg-white px-4 py-10 sm:px-6 xl:px-8 
+            sm:rounded-bl-lg md:rounded-bl-lg border-t lg:rounded-none border-gray-200">
+                <dt class="text-sm/6 font-medium text-gray-500">Volume Base</dt>
+                <dd class="text-xs font-medium text-gray-500" id="volume-change"><span class="text-mute text-gray-500">loading...</span></dd>
+                <dd class="w-full flex-none text-3xl/10 lg:text-2xl font-medium tracking-tight text-gray-900" id="volume-base"><span class="text-mute text-gray-500">loading...</span>
+                </dd>
+            </div>
+
+            <div class="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-2 bg-white px-4 py-10 sm:px-6 xl:px-8 max-[640px]:rounded-b-lg sm:rounded-br-lg
+            lg:rounded-r-lg md:rounded-br-lg border border-gray-200">
+                <dt class="text-sm/6 font-medium text-gray-500">Volume Quote</dt>
+                <dd class="text-xs font-medium text-gray-500" id="quote-volume-change"><span class="text-mute text-gray-500">loading...</span></dd>
+                <dd class="w-full flex-none text-3xl/10 lg:text-2xl font-medium tracking-tight text-gray-900" id="quote-volume"><span class="text-mute text-gray-500">loading...</span>
+                </dd>
+            </div>
+            <div class="hidden">
+                text-green-600 text-red-600 text-gray-500 bg-red-100
             </div>
         </dl>
     </div>
-
-    <!-- <div class="text-center mt-10">
-        <a id="get-ticker-button" href="#"
-            class="rounded-md bg-indigo-600 px-4 py-2 text-sm font-semibold text-white shadow hover:bg-indigo-500">
-            Get Price Tickers!
-        </a>
-    </div> -->
     <script src="./ws.js" defer></script>
 </body>
+
 </html>
