@@ -16,7 +16,10 @@ This project streams live price data from Binance using CCXT and utilizes Tailwi
    ```bash
    npm install
    ```
-
+4. Run this command:
+   ```bash
+   npm run dev
+   ```
 ## Usage
 
 1. Launch the HTML page with live server:
